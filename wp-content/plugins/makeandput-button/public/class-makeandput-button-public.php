@@ -51,7 +51,6 @@ class Makeandput_Button_Public {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
 	}
 
 	/**
@@ -95,8 +94,7 @@ class Makeandput_Button_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/makeandput-button-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name.'-script', plugin_dir_url( __FILE__ ) . 'js/makeandput-button-public.js', array( 'jquery' ), $this->version, true );
 
 	}
 

@@ -112,5 +112,5 @@ class Makeandput_Button_Admin {
 
 	public function prueba_index() {
 		echo "Hola Mundo ".plugins_url( 'public/images/makeandput.png', __FILE__ ) ;
-}
+	}
 }

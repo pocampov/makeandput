@@ -1,4 +1,22 @@
 /**
- * All of the CSS for your public-facing functionality should be
- * included in this file.
+ * All of the Make&Put CSS for the public-facing functionality
  */
+.color-sample {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+    margin-right: 5px;
+}
+
+.red {
+    background-color: #ff0000;
+}
+
+.green {
+    background-color: #00ff00;
+}
+
+.blue {
+    background-color: #0000ff;
+}

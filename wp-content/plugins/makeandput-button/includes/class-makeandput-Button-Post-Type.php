@@ -30,7 +30,19 @@ class Makeandput_Button_Post_Type {
 			if ($post_type === 'makeandput_buttons') {
 				$title = __('Name your button');
 			}
+		add_filter('get_sample_permalink_html', array($this,'ocultar_enlace_permanente'), 10, 2);
+		
 		return $title;
 		});
 	}
+	function ocultar_enlace_permanente($return, $id)
+	{
+		// Comprobamos que estamos en el post type deseado
+		if (get_post_type($id) === 'makeandput_buttons') {
+			// Si estamos en el post type deseado, eliminamos el HTML del enlace permanente
+			$return = '';
+		}
+		return $return;
+	}
+
 }

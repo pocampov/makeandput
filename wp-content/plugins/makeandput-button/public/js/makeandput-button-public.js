@@ -1,4 +1,4 @@
-(function( $ ) {
+(function ($) {
 	'use strict';
 
 	/**
@@ -29,4 +29,15 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
-})( jQuery );
+})(jQuery);
+
+function makeandput_update_button(buttonObject) {
+	var colorHex = document.getElementById("color").value;
+	var size = document.getElementById("size");
+	var rounded = document.getElementById("rounded").value;
+	var label = document.getElementById("label").value;
+	var width = document.getElementById("width");
+	buttonObject.style.backgroundColor = colorHex;
+	buttonObject.textContent = label;
+	buttonObject.style.borderRadius = rounded;
+}

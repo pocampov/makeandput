@@ -74,6 +74,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-makeandput-button.php';
  *
  * @since    1.0.0
  */
+
 function run_makeandput_button() {
 
 	$plugin = new Makeandput_Button();
@@ -84,6 +85,8 @@ function run_makeandput_button() {
 function makeandput_quitar_metabox_publicar() {
     remove_meta_box('submitdiv', 'makeandput_buttons', 'side');
 }
+
+
 run_makeandput_button();
 
 

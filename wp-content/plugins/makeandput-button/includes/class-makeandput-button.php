@@ -78,11 +78,12 @@ class Makeandput_Button {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-		//Create main Metabox 
+		//Create main Metabox
 		require_once plugin_dir_path( __FILE__ ) . 'class-makeandput-metabox-with-options.php';
 		new Makeandput_MetaBox_with_options();
 		//Create new post Type
 		require_once plugin_dir_path( __FILE__ ) . 'class-makeandput-Button-Post-Type.php';
+
 		new Makeandput_Button_Post_Type();
 		add_action('add_meta_boxes_makeandput_buttons', 'makeandput_quitar_metabox_publicar');
 	}
@@ -163,7 +164,8 @@ class Makeandput_Button {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		// Añadimos plugin al menú principal
-		  $this->loader->add_action( 'admin_menu', $plugin_admin, 'add_menu' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_menu' );
+
 	}
 
 	/**
@@ -177,8 +179,14 @@ class Makeandput_Button {
 
 		$plugin_public = new Makeandput_Button_Public( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$work_find = $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
+		if (!$work_find)
+			$plugin_public->enqueue_styles();
+		$work_find = $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts', 10, 1);
+		if (!$work_find)
+			$plugin_public->enqueue_scripts();
+		wp_enqueue_style('foundation-css', plugin_dir_url('') . 'makeandput-button/public/css/Foundation-Sites-CSS/css/foundation.min.css');
+		wp_enqueue_script('foundation-js', plugin_dir_url('') . 'makeandput-button/public/css/Foundation-Sites-CSS/js/vendor/foundation.min.js', array('jquery'), '6.5.3', true );
 
 	}
 
@@ -221,6 +229,5 @@ class Makeandput_Button {
 	public function get_version() {
 		return $this->version;
 	}
-
 }
 
