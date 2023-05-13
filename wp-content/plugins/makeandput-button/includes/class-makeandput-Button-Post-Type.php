@@ -20,7 +20,7 @@ class Makeandput_Button_Post_Type {
 			'public' => true,
 			'has_archive' => true,
 			'menu_icon' => 'dashicons-align-pull-left',
-			'supports' => array( 'title','thumbnails' ),
+			'supports' => array( 'title','edit' ),
 			'show_ui' => true,
 			'rewrite' => array( 'slug' => 'servicios' ),
 		);
@@ -31,7 +31,7 @@ class Makeandput_Button_Post_Type {
 				$title = __('Name your button');
 			}
 		add_filter('get_sample_permalink_html', array($this,'ocultar_enlace_permanente'), 10, 2);
-		
+		add_filter('admin_post_makeandput_buttons', array($this,'quita_mensaje'),10,2);
 		return $title;
 		});
 	}
@@ -44,5 +44,9 @@ class Makeandput_Button_Post_Type {
 		}
 		return $return;
 	}
-
+	function quita_mensaje($post_id)
+	{
+		unset($GLOBALS['messages']['updated']);
+		return $messages;
+	}
 }

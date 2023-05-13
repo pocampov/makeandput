@@ -51,7 +51,6 @@ class Makeandput_Button_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
 	}
 
 	/**
@@ -105,12 +104,13 @@ class Makeandput_Button_Admin {
 		"Make&Put", // Literal de la opción
 		"manage_options", // Dejadlo tal cual
 		'makeandput', // Slug
-		array( $this, 'prueba_index' ), // Función que llama al pulsar
+		array( $this, 'admin_content' ), // Función que llama al pulsar
 		plugins_url( 'images/makeandput.png', __FILE__ )  // Icono del menú
 		);
 	}
 
-	public function prueba_index() {
+	public function admin_content() {
 		echo "Hola Mundo ".plugins_url( 'public/images/makeandput.png', __FILE__ ) ;
 	}
+
 }

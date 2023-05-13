@@ -51,6 +51,11 @@ class Makeandput_Button_Public {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+		// Permite llamadas desde javascript
+		add_action('wp_ajax_mi_funcion_php', array($this, 'mi_funcion_php'));
+		add_action( "wp_ajax_nopriv_mi_funcion_php", array($this, 'mi_funcion_php'));
+		add_action('wp_ajax_save_likes_php', array($this, 'save_likes_php'));
+		add_action( "wp_ajax_nopriv_save_likes_php", array($this, 'save_likes_php'));
 	}
 
 	/**
@@ -73,6 +78,8 @@ class Makeandput_Button_Public {
 		 */
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/makeandput-button-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style($this->plugin_name.'-bootstrap', plugin_dir_url(__FILE__) . 'css/bootstrap/css/bootstrap.css', array(), '', 'all');
+		wp_enqueue_style($this->plugin_name . '-material-icons', 'https://fonts.googleapis.com/css2?family=Material+Icons&display=block', array(), '', 'all');
 
 	}
 
@@ -95,7 +102,42 @@ class Makeandput_Button_Public {
 		 * class.
 		 */
 		wp_enqueue_script( $this->plugin_name.'-script', plugin_dir_url( __FILE__ ) . 'js/makeandput-button-public.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script($this->plugin_name . '-bootstrap', plugin_dir_url(__FILE__) . 'css/bootstrap/js/bootstrap.js', array('jquery'), $this->version, true);
 
+		// Define el objeto de datos para pasar a wp_localize_script()
+		add_action('init', array($this,'generate_nonce'));
+		$datos = array(
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'nonce' => $this->generate_nonce()
+		);
+
+		// Utiliza wp_localize_script() para pasar los datos al Front
+		wp_localize_script( 'makeandput-button-script', 'makeandput_datos', $datos );
+
+	}
+	function generate_nonce()
+	{
+		$nonce = "kjnl32rfnlqwef9u0d";
+		return $nonce;
+	}
+	function mi_funcion_php()
+	{
+		$parameters = $_POST['parameters'];
+		$subject = sanitize_text_field($parameters['subject']);
+		$recipient = sanitize_text_field($parameters['recipient']);
+		$message = sanitize_text_field($parameters['message']);
+		$result = wp_mail($recipient, $subject, $message);
+		return $result;
+		wp_die();
+	}
+	function save_likes_php()
+	{
+		$parameters = $_POST['parameters'];
+		$id = sanitize_text_field($parameters['id']);
+		$likes = sanitize_text_field($parameters['likes']);
+		$result = update_post_meta($id, 'likes', $likes);
+		return $result;
+		wp_die();
 	}
 
 }

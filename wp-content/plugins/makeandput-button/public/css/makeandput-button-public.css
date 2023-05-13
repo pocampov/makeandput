@@ -20,3 +20,117 @@
 .blue {
     background-color: #0000ff;
 }
+.makeandput-button-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #808080;
+    color: white;
+    border: 4px;
+    border-color: #f00000;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: 'Material Symbols Outlined';
+    background-repeat: no-repeat;
+    background-position: center center;
+    text-indent: -9999px;
+}
+.makeandput-01-background {
+    background-color: #f5f5f5;
+}
+.makeandput-input {
+    width: 33.33%;
+    float: left;
+}
+.makeandput-form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+    .makeandput-form-group input {
+        display: block;
+        width: 33%;
+        padding: 0.5rem;
+        border: none;
+        border-bottom: 2px solid #ccc;
+    }
+    .form-group select {
+        display: block;
+        width: 33%;
+        padding: 0.5rem;
+        border: none;
+        border-bottom: 2px solid #ccc;
+        background-color: transparent;
+    }
+
+    .makeandput-form-group label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: #999;
+        pointer-events: none;
+        transition: all 0.3s ease;
+    }
+
+    .makeandput-form-group input:focus + label,
+    .makeandput-form-group input:not(:placeholder-shown) + label {
+        top: -1.5rem;
+        font-size: 0.8rem;
+        color: #333;
+    }
+    .form-group select:focus + label,
+    .form-group select:not(:placeholder-shown) + label {
+        top: -1.5rem;
+        font-size: 0.8rem;
+        color: #333;
+    }
+
+@keyframes fadeAndMove {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(-50px);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+}
+
+.makeandput_heart {
+    width: 10px;
+    height: 10px;
+    position: relative;
+    animation: fadeAndMove 1s linear forwards;
+}
+
+    .makeandput_heart::before,
+    .makeandput_heart::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        width: 6px;
+        height: 10px;
+        border-radius: 50px 50px 0 0;
+        background: red;
+    }
+
+    .makeandput_heart::before {
+        left: 6px;
+        transform: rotate(-45deg);
+        transform-origin: 0 100%;
+    }
+
+    .makeandput_heart::after {
+        left: 0;
+        transform: rotate(45deg);
+        transform-origin: 100% 100%;
+    }
+
+

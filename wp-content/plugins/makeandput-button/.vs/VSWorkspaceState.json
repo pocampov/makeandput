@@ -3,10 +3,13 @@
     "",
     "\\admin",
     "\\includes",
+    "\\includes\\plantillas",
     "\\public",
     "\\public\\css",
-    "\\public\\js"
+    "\\public\\css\\bootstrap\\css",
+    "\\public\\js",
+    "\\public\\partials"
   ],
-  "SelectedNode": "\\includes\\class-makeandput-button-loader.php",
+  "SelectedNode": "\\public\\partials\\plantilla_correo.htm",
   "PreviewInSolutionExplorer": false
 }

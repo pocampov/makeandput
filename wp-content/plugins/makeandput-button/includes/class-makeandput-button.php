@@ -86,6 +86,18 @@ class Makeandput_Button {
 
 		new Makeandput_Button_Post_Type();
 		add_action('add_meta_boxes_makeandput_buttons', 'makeandput_quitar_metabox_publicar');
+
+		add_shortcode('makeandput_button', array($this, 'makeandput_button_shortcode'));
+		$post_data = array(
+			'post_title' => 'Send Mail',
+			'post_content' => 'UNA PRUEBA',
+			'post_status' => 'draft',
+			// Establecer el estado del post en borrador para que no sea visible públicamente
+			'post_type' => 'post', // El tipo de post en el que se creará el formulario (puede ser "post", "page", "custom_post_type", etc.)
+		);
+		// Vinculo con funcionn javascript
+		add_action('wp_ajax_mi_funcion_php',array($this, 'mi_funcion_php'));
+
 	}
 
 	/**
@@ -228,6 +240,31 @@ class Makeandput_Button {
 	 */
 	public function get_version() {
 		return $this->version;
+	}
+	function makeandput_button_shortcode($atts,$button)
+	{
+		$post_id = $atts['id'];
+		$button = get_post_meta( $post_id, 'button', true );
+		$likes = strval($this->get_likes($post_id));
+		return $button."<div id='mi-modal' ></div>
+							<script>
+								var element = document.getElementById('makeandput_likes'+$post_id);
+								if (element !== null) {
+									element.innerHTML = $likes;
+								}
+							</script>";
+	}
+	function get_likes($id)
+	{
+		$out = get_post_meta($id,'likes',true);
+		if (!isset($out))
+			$out = 0;
+		return $out;
+	}
+	function mi_funcion_php()
+	{
+		// To implement
+		wp_die();
 	}
 }
 
