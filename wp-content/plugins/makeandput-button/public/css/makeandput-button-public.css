@@ -133,4 +133,29 @@
         transform-origin: 100% 100%;
     }
 
+.makeandput_rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: center;
+}
 
+    .makeandput_rating > input {
+        display: none;
+    }
+
+    .makeandput_rating > label:before {
+        content: "\2605";
+        color: #CCCCCC; 
+        font-size: 25px;
+    }
+
+    .makeandput_rating > label {
+        display: inline-block;
+        margin: 0 3px;
+        cursor: pointer;
+    }
+
+    .makeandput_rating > input:checked ~ label:before {
+        content: "\2605";
+        color: gold;
+    }

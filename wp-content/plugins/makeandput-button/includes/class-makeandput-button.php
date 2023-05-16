@@ -246,13 +246,14 @@ class Makeandput_Button {
 		$post_id = $atts['id'];
 		$button = get_post_meta( $post_id, 'button', true );
 		$likes = strval($this->get_likes($post_id));
-		return $button."<div id='mi-modal' ></div>
+		return "<span id='mi-rateme$post_id'>".
+				$button."<div id='mi-modal' ></div>
 							<script>
 								var element = document.getElementById('makeandput_likes'+$post_id);
 								if (element !== null) {
 									element.innerHTML = $likes;
 								}
-							</script>";
+							</script></span>";
 	}
 	function get_likes($id)
 	{

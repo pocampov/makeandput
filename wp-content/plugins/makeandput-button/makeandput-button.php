@@ -55,10 +55,43 @@ function deactivate_makeandput_button() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-makeandput-button-deactivator.php';
 	Makeandput_Button_Deactivator::deactivate();
 }
-
+function uninstall_makeandput_button()
+{
+	// Elimina los post types personalizados creadas por el plugin
+	unregister_post_type('makeandput_buttons');
+	// Eliminar las claves de post-meta asociadas con el plugin
+	$args = array(
+		'post_type' => 'makeandput_buttons',
+		'posts_per_page' => -1,
+		'post_status' => array('publish', 'pending', 'draft', 'future', 'private'),
+	);
+	$query = new WP_Query($args);
+	if ($query->have_posts()) {
+		while ($query->have_posts()) {
+			$query->the_post();
+			$id = get_the_ID();
+			// Mueve el post a la papelera antes de eliminar las claves de post-meta
+			wp_trash_post($id);
+			// Elimina variables personalizadas
+			delete_post_meta($id, 'label');
+			delete_post_meta($id, 'color');
+			delete_post_meta($id, 'rounded');
+			delete_post_meta($id, 'size');
+			delete_post_meta($id, 'width');
+			delete_post_meta($id, 'button');
+			delete_post_meta($id, 'font_color');
+			delete_post_meta($id, 'actions');
+			delete_post_meta($id, 'email');
+			delete_post_meta($id, 'url');
+			delete_post_meta($id, 'likes');
+			delete_post_meta($id, 'stars');
+		}
+		wp_reset_postdata();
+	}
+}
 register_activation_hook( __FILE__, 'activate_makeandput_button' );
 register_deactivation_hook( __FILE__, 'deactivate_makeandput_button' );
-
+register_uninstall_hook(__FILE__, 'uninstall_makeandput_button');
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
@@ -74,7 +107,24 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-makeandput-button.php';
  *
  * @since    1.0.0
  */
-
+add_action('before_delete_post', 'delete_custom_post_meta_on_delete');
+function delete_custom_post_meta_on_delete($post_id)
+{
+	if (get_post_type($post_id) == 'makeandput_buttons') {
+		delete_post_meta($post_id, 'label');
+		delete_post_meta($post_id, 'color');
+		delete_post_meta($post_id, 'rounded');
+		delete_post_meta($post_id, 'size');
+		delete_post_meta($post_id, 'width');
+		delete_post_meta($post_id, 'button');
+		delete_post_meta($post_id, 'font_color');
+		delete_post_meta($post_id, 'actions');
+		delete_post_meta($post_id, 'email');
+		delete_post_meta($post_id, 'url');
+		delete_post_meta($post_id, 'likes');
+		delete_post_meta($post_id, 'stars');
+	}
+}
 function run_makeandput_button() {
 
 	$plugin = new Makeandput_Button();

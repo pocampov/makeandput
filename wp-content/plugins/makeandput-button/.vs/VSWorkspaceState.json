@@ -2,14 +2,14 @@
   "ExpandedNodes": [
     "",
     "\\admin",
+    "\\admin\\js",
     "\\includes",
     "\\includes\\plantillas",
     "\\public",
     "\\public\\css",
-    "\\public\\css\\bootstrap\\css",
     "\\public\\js",
     "\\public\\partials"
   ],
-  "SelectedNode": "\\public\\partials\\plantilla_correo.htm",
+  "SelectedNode": "\\public\\class-makeandput-button-public.php",
   "PreviewInSolutionExplorer": false
 }

@@ -56,6 +56,11 @@ class Makeandput_Button_Public {
 		add_action( "wp_ajax_nopriv_mi_funcion_php", array($this, 'mi_funcion_php'));
 		add_action('wp_ajax_save_likes_php', array($this, 'save_likes_php'));
 		add_action( "wp_ajax_nopriv_save_likes_php", array($this, 'save_likes_php'));
+		add_action('wp_ajax_save_rateme_php', array($this, 'save_rateme_php'));
+		add_action( "wp_ajax_nopriv_save_rateme_php", array($this, 'save_rateme_php'));
+		add_action('wp_ajax_average_rating_php', array($this, 'average_rating_php'));
+		add_action( "wp_ajax_nopriv_average_rating_php", array($this, 'average_rating_php'));
+
 	}
 
 	/**
@@ -139,5 +144,57 @@ class Makeandput_Button_Public {
 		return $result;
 		wp_die();
 	}
+	function save_rateme_php()
+	{
+		$parameters = $_POST['parameters'];
+		$id = sanitize_text_field($parameters['id']);
+		$rate = sanitize_text_field($parameters['rate']);
+		$session = $this->get_session();
+		$stars = get_post_meta($id, 'stars', true);
+		if (!is_array($stars)) {
+			$stars = array(); // Si no existe un array, inicialízalo como un array vacío
+		}
+		
+		$stars["$session"] = $rate;
+		$result = update_post_meta($id, "stars", $stars);
+		
+		wp_die();
+	}
+	function average_rating_php()
+	{
+		$parameters = $_POST['parameters'];
+		$post_id = sanitize_text_field($parameters['id']);
+		$stars = get_post_meta($post_id, 'stars', true);
+		$tot = 0;
+		foreach($stars as $star)
+		{
+			$tot += $star;
+		}
+		$average = $tot / count($stars);
+		echo $average;
+	}
+	function get_client_ip()
+	{
+		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+			$ip = $_SERVER['HTTP_CLIENT_IP'];
+		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} else {
+			$ip = $_SERVER['REMOTE_ADDR'];
+		}
 
+		return $ip;
+	}
+	function get_session()
+	{
+		$numero_sesion = session_id();
+
+		if (!empty($numero_sesion)) {
+			echo "El número de sesión del usuario es: " . $numero_sesion;
+		} else {
+			session_start();
+			$numero_sesion = session_id();
+		}
+		return $numero_sesion;
+	}
 }

@@ -30,6 +30,7 @@ class Makeandput_MetaBox_with_options {
 		$label = '';
 		$color = '';
 		$likes = 0;
+		$starts = [];
 		if (array_key_exists('label', $_POST)) {
 			$label = $_POST['label'];
 		}
@@ -49,19 +50,22 @@ class Makeandput_MetaBox_with_options {
 			$button = $_POST['button'];
 		}
 		if (array_key_exists('font_color', $_POST)) {
-			$button = $_POST['font_color'];
+			$font_color = $_POST['font_color'];
 		}
 		if (array_key_exists('actions', $_POST)) {
-			$button = $_POST['actions'];
+			$actions = $_POST['actions'];
 		}
 		if (array_key_exists('email', $_POST)) {
-			$button = $_POST['email'];
+			$email = $_POST['email'];
 		}
 		if (array_key_exists('url', $_POST)) {
-			$button = $_POST['url'];
+			$url = $_POST['url'];
 		}
 		if (array_key_exists('likes', $_POST)) {
-			$button = $_POST['likes'];
+			$likes = $_POST['likes'];
+		}
+		if (array_key_exists('stars', $_POST)) {
+			$stars = $_POST['stars'];
 		}
 		update_post_meta( $post_id, 'label',  $label, true );
 		update_post_meta( $post_id, 'color',  $color, true );
@@ -74,6 +78,7 @@ class Makeandput_MetaBox_with_options {
 		update_post_meta($post_id, 'email', $mail, true);
 		update_post_meta($post_id, 'url', $url, true);
 		update_post_meta($post_id, 'likes', $likes, true);
+		update_post_meta($post_id, 'stars', $stars, true);
 	    register_meta( 'servicios', 'label', array(
 			'type' => 'string',
 			'description' => 'Label del boton',
@@ -146,6 +151,12 @@ class Makeandput_MetaBox_with_options {
 			'single' => true,
 			'show_in_rest' => true,
 		));
+		register_meta('servicios', 'stars', array(
+			'type' => 'array',
+			'description' => 'calificación en el boton Rate me',
+			'single' => false,
+			'show_in_rest' => true,
+		));
 	}
     public function contenido_metabox( $post ) {
 		include("makeandput_array_colors.php");
@@ -159,6 +170,7 @@ class Makeandput_MetaBox_with_options {
 		$email = get_post_meta($post->ID, 'email', true);
 		$url = get_post_meta($post->ID, 'url', true);
 		$likes = get_post_meta($post->ID, 'likes', true);
+		$stars = get_post_meta($post->ID, 'stars', true);
 		$features = [
 			'label' => $label,
 			'color' => $color,
@@ -299,6 +311,9 @@ echo '<input type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode()" /
 							 '. $features["likes"].'
 						</span><span id="makeandput_heart'.get_the_ID().'" style="display:none"></span>';
 		}
+		if ($features["actions"] == $this->menu_options[3][0]) {
+			$run = "rateme(" . get_the_ID() .",'". plugins_url('makeandput-button'). "','".$text."')";
+		}
 		if ($text == '')
 			$text = "LABEL";
 		//"' . strtolower($features["actions"]) . '(\''. $features["url"].'\')"
@@ -347,6 +362,7 @@ echo '<input type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode()" /
 		$email = isset($_POST['email']) ? sanitize_text_field($_POST['email']) : '';
 		$url = isset($_POST['url']) ? sanitize_text_field($_POST['url']) : '';
 		$likes = isset($_POST['likes']) ? sanitize_text_field($_POST['likes']) : 0;
+		$stars = isset($_POST['stars']) ? sanitize_text_field($_POST['stars']) : 0;
 		// Actualizar los valores en la base de datos.
 		update_post_meta($post_id, 'label', $label );
 		update_post_meta($post_id, 'color', $color );

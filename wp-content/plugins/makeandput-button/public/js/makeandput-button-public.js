@@ -28,7 +28,7 @@
 	 * Although scripts in the WordPress core, Plugins and Themes may be
 	 * practising this, we should strive to set a better example in our own work.
 	 */
-	function llamar_funcion_php(php_function,parameter) {
+	function llamar_funcion_php(php_function, parameter, callback = function () { }) {
 		if (typeof ajaxurl === "undefined") {
 			var ajaxurl = makeandput_datos.ajaxurl;
 		}
@@ -41,8 +41,9 @@
 				parameters: parameter
 			},
 			success: function (resultado) {
+				callback(resultado, parameter['id']);
 			}
-		}); 
+		});
 	}
 	window.llamar_funcion_php = llamar_funcion_php;
 
@@ -94,6 +95,49 @@ function link(url) {
 	window.open(url);
 }
 
+async function rateme(id, path, label) {
+	var destino = path + '/public/partials' + '/plantilla_rateme.htm';
+	const response = await fetch(destino);
+	const body = await response.text();
+	var content = body.replace(new RegExp("average", "g"), "<span id='average-" + id + "' ></span>");
+	var content = content.replace(new RegExp('your_rate', "g"), "<span id='rate-"+id+"' ></span>");
+	var content = content.replace(new RegExp('Rate me', "g"), label);
+	
+	var ratemeContainer = document.getElementById("mi-rateme" + id);
+	if (ratemeContainer !== null)
+		ratemeContainer.innerHTML = content;
+
+	const inputs = document.querySelectorAll('.makeandput_rating input[type="radio"]');
+
+	inputs.forEach(input => {
+		input.addEventListener('click', () => {
+			const clickedInputValue = input.value;
+			const clickedInputId = input.id;
+
+			var your_rate = document.getElementById("rate-" + id);
+			your_rate.innerHTML = clickedInputValue;
+			var parameter = {
+				'id': id,
+				'rate': clickedInputValue
+			}
+			llamar_funcion_php("save_rateme_php", parameter);
+			avarage_rating(id);
+		});
+	});
+	
+}
+function avarage_rating(id) {
+	var parameter = {
+		'id': id
+	}
+	var callback = function (resultado, id) {
+		var average = document.getElementById("average-" + id);
+		var resultadoDecimal = parseFloat(resultado).toFixed(2);
+		if (average !== null)
+			average.innerHTML = resultadoDecimal;
+	};
+	llamar_funcion_php("average_rating_php", parameter, callback)
+}
 async function modal(title, path) {
 	var destino = path + '/public/partials' + '/plantilla_correo.htm';
 	const response = await fetch(destino);
