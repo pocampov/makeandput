@@ -123,9 +123,8 @@ class Makeandput_Button_Admin
 
 		echo "
 			<h1>Make&Put</h1>
-			<p>Is a plugin to you do yours buttons. You choose: the color, the size, the font color and box rounded.<br>
-			The plugin produce a short-code that you could put in yours
-			own post and pages.</p><br>
+			<p>This plugin enables you to create custom buttons. You have the freedom to choose the color, size, font color, and rounded box shape.
+The plugin generates a shortcode that you can easily insert into your own posts and pages.</p><br>
 			Some examples:<br>";
 		$imagen1 = plugins_url('images/button1.png', __FILE__);
 		$imagen2 = plugins_url('images/button2.png', __FILE__);

@@ -1,20 +1,14 @@
 <?php
 
 /**
- * The plugin bootstrap file
- *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
- *
+ * 
  * @link              https://monodelapila.com
  * @since             1.0.0
  * @package           Makeandput_Button
  *
  * @wordpress-plugin
  * Plugin Name:       make&put Button
- * Plugin URI:        https://www.monodelapila/makeandput
+ * Plugin URI:        https://monodelapila.com/wordpress/makeput-wordpress-plugin/
  * Description:       Make your own buttons and puts its in your pages and post
  * Version:           1.0.0
  * Author:            Pedro Ocampo
