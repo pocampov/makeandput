@@ -7,7 +7,6 @@ class Makeandput_MetaBox_with_options {
 		["Send mail","email","email"],
 		["Give me Like","like","like"],
 		["Rate me","rate","rate"],
-		["Search","search","search"]
 		);
 	public function __construct() {
 		add_action( 'add_meta_boxes', array($this,'crear_campos_personalizados') );
@@ -230,6 +229,11 @@ class Makeandput_MetaBox_with_options {
 				$email_visibility = ' style="display: none;" ';
 				$label_email_style = ' style="display: none;" ';
 				break;
+			default:
+				$email_visibility = ' style="display: none;" ';
+				$label_email_style = ' style="display: none;" ';
+				$url_visibility = ' style="display: none;" ';
+				$label_url_style = ' style="display: none;" ';
 		}
 		$url_input = '<label for="url" ' . $label_url_style . ' id="label_url">' . __("Link: ", "text-domain") . '</label>
 						<input '.$url_visibility.'
